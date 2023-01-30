@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUIImageTintingSample.MainPage"
+             xmlns:vm="clr-namespace:MAUIImageTintingSample"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Name="MainContainer">
+
+    <ContentPage.BindingContext>
+        <vm:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="20,10">
+
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="200"
+                vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"
+                HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="CenterAndExpand">
+
+                <Image Source="camera.png" vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"/>
+
+                <Image Source="heart.png" vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"/>
+
+                <Image Source="home.png" vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"/>
+
+                <Image Source="settings.png" vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"/>
+
+                <Image Source="user.png" vm:TintColorBehavior.AttachBehavior="{Binding IsAttached}"/>
+
+            </HorizontalStackLayout>
+
+            <FlexLayout
+                x:Name="StackColorList"
+                AlignItems="Center"
+                BindableLayout.ItemsSource="{Binding Colors}"
+                Direction="Row"
+                FlexLayout.AlignSelf="Center"
+                HorizontalOptions="FillAndExpand"
+                JustifyContent="Center"
+                Wrap="Wrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            BackgroundColor="{Binding Color}"
+                            BorderColor="Transparent"
+                            BorderWidth="2"
+                            Command="{Binding BindingContext.ColorItemClickedCommand, Source={x:Reference MainContainer}}"
+                            CommandParameter="{Binding .}"
+                            CornerRadius="0"
+                            HeightRequest="100"
+                            WidthRequest="100">
+                            <Button.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsSelected}"
+                                    TargetType="Button"
+                                    Value="True">
+                                    <Setter Property="BorderColor" Value="Red" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Change Image Color"
+                Command="{Binding ChangeImageTintColorCommand}"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
